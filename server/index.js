@@ -1,56 +1,119 @@
 const { GraphQLServer } = require("graphql-yoga");
 const mongoose = require("mongoose");
-const Adult = require("./schemas/memberSchema");
+const churchMember = require("./schemas/memberSchema");
 
 mongoose.connect("mongodb://localhost/my_database", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useFindAndModify: false,
-  useCreateIndex: true
+  useCreateIndex: true,
 });
+
+const adult_churchMember = mongoose.model("Member", churchMember);
 const typeDefs = `
   type Query {
     hello(name: String): String!
-    adults: [Adult]
+    churchMembers:[adult_churchMember]
   }
 
-  type Adult{
-    id: ID!
-    firstName: String!
+  type adult_churchMember{
+    id: ID
+    firstName: String,
     surName: String,
+    dob: String,
+    age: Int,
+    sex: String,
+    service:String,
+    registered:Boolean,
+    otherNames: String,
+    email: String,
+    address: String,
+    phoneNumber: String,
+    nationality: String,
+    areaOfResidence: String,
+
+
+
     
     
   }
   type Mutation{
-      createAdult(firstName: String!) : Adult
-      updateAdult(id:ID!,firstName:String!) : Boolean
-      removeAdult(id:ID!) : Boolean
+      createMember(
+        firstName: String,
+        surName:String,
+        dob:String,
+        age:Int,
+        sex: String,
+        service:String,
+        otherNames: String,
+        email: String,
+        address: String,
+        phoneNumber: String,
+        nationality: String,
+        areaOfResidence: String, 
+        ) : adult_churchMember
+      updateMember(id:ID!,firstName:String!,surName:String!,registered:Boolean) : Boolean
+      removeMember(surName:String) : Boolean
   }
 `;
 
 const resolvers = {
   Query: {
     hello: (_, { name }) => `Hello ${name || "World"}`,
-    adults: () => Adult.find()
+    churchMembers: () => adult_churchMember.find(),
   },
   Mutation: {
-    createAdult: async (_, { firstName }) => {
-      const adult = new Adult({ firstName, surName: "Av" });
-      await adult.save();
-      return adult;
+    createMember: async (
+      _,
+      {
+        firstName,
+        surName,
+        dob,
+        age,
+        sex,
+        service,
+        otherNames,
+        email,
+        address,
+        phoneNumber,
+        nationality,
+        areaOfResidence,
+      }
+    ) => {
+      const member = new adult_churchMember({
+        firstName,
+        surName,
+        dob,
+        age,
+        sex,
+        service,
+        otherNames,
+        email,
+        address,
+        phoneNumber,
+        nationality,
+        areaOfResidence,
+        registered: false,
+      });
+      await member.save();
+      return member;
     },
-    updateAdult: async (_, { id, firstName }) => {
-      await Adult.findByIdAndUpdate(id, { firstName });
+    updateMember: async (_, { id, firstName, surName, registered }) => {
+      await adult_churchMember.findByIdAndUpdate(id, {
+        firstName,
+        surName,
+        registered,
+      });
       return true;
     },
-    removeAdult: async (_, { id }) => {
-      await Adult.findByIdAndRemove(id);
+    removeMember: async (_, { surName }) => {
+      await adult_churchMember.findOneAndRemove({ surName });
       return true;
-    }
-  }
+    },
+  },
 };
 
 const server = new GraphQLServer({ typeDefs, resolvers });
-mongoose.connection.once("open", function() {
+mongoose.connection.once("open", function () {
   server.start(() => console.log("Server is running on localhost:4000"));
 });

@@ -2,10 +2,20 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
-const adultMember = new Schema({
+const churchMember = new Schema({
   firstName: String,
   surName: String,
-  date: { type: Date, default: Date.now }
+  dob: String,
+  age: Number,
+  sex: String,
+  service: String,
+  registered: Boolean,
+  otherNames: String,
+  email: String,
+  address: String,
+  phoneNumber: String,
+  nationality: String,
+  areaOfResidence: String,
 });
 
-module.exports = mongoose.model("Adult", adultMember);
+module.exports = churchMember;

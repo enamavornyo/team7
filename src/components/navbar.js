@@ -1,14 +1,60 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import Auth from "../auth";
+
+const auth = new Auth();
+
+/*eslint no-restricted-globals: 0 */
+let links = document.getElementsByClassName("nav-item");
+let loc = location.pathname;
+console.log(loc);
 
 function Bar() {
+  if (loc === "/dashboard") {
+    console.log(links);
+    window.onload = function Tabss() {
+      var current = document.getElementsByClassName("active").item(0);
+      console.log(current);
+      current.className = "";
+      links.item(0).className = "active";
+    };
+  }
+
+  if (loc === "/tithes") {
+    console.log(links);
+    window.onload = function Tabss() {
+      var current = document.getElementsByClassName("active").item(0);
+      console.log(current);
+      current.className = "";
+      links.item(1).className = "active";
+    };
+  }
+
+  if (loc === "/auxGroups") {
+    console.log(links);
+    window.onload = function Tabss() {
+      var current = document.getElementsByClassName("active").item(0);
+      console.log(current);
+      current.className = "";
+      links.item(2).className = "active";
+    };
+  }
+
+  if (loc === "/donations") {
+    console.log(links);
+    window.onload = function Tabss() {
+      var current = document.getElementsByClassName("active").item(0);
+      console.log(current);
+      current.className = "";
+      links.item(3).className = "active";
+    };
+  }
+
   return (
-    <nav class="navbar navbar-expand-lg navbar navbar-dark bg-dark w-100">
-      <a class="navbar-brand" href="#">
-        Navbar
-      </a>
+    <nav className="navbar navbar-expand-lg navbar navbar-dark bg-dark w-100">
+      <div className="navbar-brand">Team 7 Church DMS</div>
       <button
-        class="navbar-toggler"
+        className="navbar-toggler"
         type="button"
         data-toggle="collapse"
         data-target="#navbarSupportedContent"
@@ -16,66 +62,54 @@ function Bar() {
         aria-expanded="false"
         aria-label="Toggle navigation"
       >
-        <span class="navbar-toggler-icon"></span>
+        <span className="navbar-toggler-icon"></span>
       </button>
 
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="#">
-              Home <span class="sr-only">(current)</span>
+      <div className="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul className="navbar-nav mx-auto">
+          <li className="nav-item  ">
+            <a className="nav-link " href="/dashboard">
+              Home <span className="sr-only">(current)</span>
             </a>
           </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              Link
+
+          <li className="nav-item active">
+            <a className="nav-link" href="/members">
+              Members <span className="sr-only">(current)</span>
             </a>
           </li>
-          <li class="nav-item dropdown">
-            <a
-              class="nav-link dropdown-toggle"
-              href="#"
-              id="navbarDropdown"
-              role="button"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-            >
-              Dropdown
+
+          <li className="nav-item">
+            <a className="nav-link" href="/tithes">
+              Tithes / offerings <span className="sr-only">(current)</span>
             </a>
-            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-              <a class="dropdown-item" href="#">
-                Action
-              </a>
-              <a class="dropdown-item" href="#">
-                Another action
-              </a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#">
-                Something else here
-              </a>
-            </div>
           </li>
-          <li class="nav-item">
-            <a
-              class="nav-link disabled"
-              href="#"
-              tabindex="-1"
-              aria-disabled="true"
-            >
-              Disabled
+
+          <li className="nav-item">
+            <a className="nav-link" href="/auxGroups">
+              Auxiliary Groups<span className="sr-only">(current)</span>
+            </a>
+          </li>
+
+          <li className="nav-item">
+            <a className="nav-link" href="/donations">
+              Donations <span className="sr-only">(current)</span>
+            </a>
+          </li>
+          <li className="nav-item">
+            <a className="nav-link" href="/counselling">
+              Counselling <span className="sr-only">(current)</span>
             </a>
           </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-          <input
-            class="form-control mr-sm-2"
-            type="search"
-            placeholder="Search"
-            aria-label="Search"
-          />
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">
-            Search
+        <form className="form-inline my-2 my-lg-0">
+          <button
+            className="btn btn-danger my-2 my-sm-0"
+            type="button"
+            style={{ color: "white" }}
+            onClick={auth.logout}
+          >
+            logout
           </button>
         </form>
       </div>
